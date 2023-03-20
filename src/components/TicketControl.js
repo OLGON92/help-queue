@@ -13,28 +13,28 @@ class TicketControl extends React.Component {
     };
   }
 
-  handleAddingNewTicketToLIst = (newTicket) => {
-    const newMainTicketList = this.state.mainTicketList.concat(newTicket);
-    this.setState({mainTicketList: newMainTicketList,
-                  formVisibleOnPage: false});
-  }
-  /*handleClick = () => {
+  handleClick = () => {
     this.setState(prevState => ({
       formVisibleOnPage: !prevState.formVisibleOnPage
     }));
-  }*/
+  }
 
-
+  handleAddingNewTicketToList = (newTicket) => {
+    const newMainTicketList = this.state.mainTicketList.concat(newTicket);
+    this.setState({
+      mainTicketList: newMainTicketList,
+      formVisibleOnPage: false
+    });
+  }
+  
   render(){
     let currentlyVisibleState = null;
     let buttonText = null;
     if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />
-      //we prefix the prop with on. This differentiates the method in our parent component (which will actually handle the event) from the function in our child component (which is triggered when the event happens).
       buttonText = "Return to Ticket List";
     } else {
-      currentlyVisibleState = <TicketList ticketList={this.state.mainTicketList} />; //we're passing mainTicketList down to TicketList
-      //Here we're calling it ticketList, so that's the name we'll use to access it as a prop in TicketList.
+      currentlyVisibleState = <TicketList ticketList={this.state.mainTicketList} />; //we're passing 
       buttonText = "Add Ticket";
     }
     return (
