@@ -1,6 +1,7 @@
 import React from "react";
 import NewTicketForm from "./NewTicketForm";
 import TicketList from "./TicketList";
+import TicketDetail from './TicketDetail';
 
 class TicketControl extends React.Component {
   
@@ -9,7 +10,8 @@ class TicketControl extends React.Component {
     super(props);
     this.state = {
       formVisibleOnPage: false,
-      mainTicketList: [] //The queue should be empty until we start adding tickets via our form; no fake tickets
+      mainTicketList: [], //The queue should be empty until we start adding tickets via our form; no fake tickets
+      selectedTicket: null
     };
   }
 
@@ -27,14 +29,24 @@ class TicketControl extends React.Component {
     });
   }
   
+  handleChangingSelectedTicket = (id) => {
+    const selectedTicket = this.state.mainTicketList.filter(ticket => ticket.id === id)[0];
+    this.setState({selectedTicket: selectedTicket});
+  }
+
   render(){
     let currentlyVisibleState = null;
     let buttonText = null;
-    if (this.state.formVisibleOnPage) {
-      currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />
+
+    if (this.state.selectedTicket != null) {
+      currentlyVisibleState = <TicketDetail ticket = {this.state.selectedTicket} />
+      buttonText = "Return to Ticket List";
+    }
+    else if (this.state.formVisibleOnPage) {
+      currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />;
       buttonText = "Return to Ticket List";
     } else {
-      currentlyVisibleState = <TicketList ticketList={this.state.mainTicketList} />; //we're passing 
+      currentlyVisibleState = <TicketList ticketList={this.state.mainTicketList} onTicketSelection={this.handleChangingSelectedTicket} />; 
       buttonText = "Add Ticket";
     }
     return (
