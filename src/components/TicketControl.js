@@ -10,8 +10,9 @@ class TicketControl extends React.Component {
     super(props);
     this.state = {
       formVisibleOnPage: false,
-      mainTicketList: [], //The queue should be empty until we start adding tickets via our form; no fake tickets
-      selectedTicket: null
+      mainTicketList: [], 
+      selectedTicket: null,
+      editing: false 
     };
   }
 
@@ -49,12 +50,20 @@ class TicketControl extends React.Component {
     });
   }
 
+  handleEditClick = () => {
+    this.setState({editing: true});
+  }
+
   render(){
     let currentlyVisibleState = null;
     let buttonText = null;
 
     if (this.state.selectedTicket != null) {
-      currentlyVisibleState = <TicketDetail ticket = {this.state.selectedTicket} onClickingDelete = {this.handleDeletingTicket} />
+      currentlyVisibleState = 
+      <TicketDetail 
+      ticket = {this.state.selectedTicket} 
+      onClickingDelete = {this.handleDeletingTicket} 
+      onClickingEdit = {this.handleEditClick} />;
       buttonText = "Return to Ticket List";
     }
     else if (this.state.formVisibleOnPage) {
