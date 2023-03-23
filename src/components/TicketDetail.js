@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "Prop-types";
+import PropTypes from "prop-types";
 
 function TicketDetail(props) {
   const { ticket, onClickingDelete } = props;
